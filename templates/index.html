@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>여름 : 텍스트 스타일러</title>
+    <style>
+    body {
+        background-image: url('./바다 사진2.jpeg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .mosaic-overlay {
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="8" height="8"%3E%3Cpath d="M0 0h16v8H0z" fill="white"/%3E%3C/svg%3E');
+        opacity: 1;
+        mix-blend-mode: multiply;
+        pointer-events: none;
+    }
+    #title_1{
+        color: white;
+        font-weight: bold;
+        font-size: 30px;
+    }
+    .input{
+        font-size: 30px;
+        font-family: "baemin";
+        position:relative;
+    }
+    .radio{
+        color:white;
+        font-weight:bold;
+        font-size: 25px;
+    }
+    textarea {
+        width: 600px;
+        height: 200px;
+        border-radius: 10px;
+        font-size: 20px;
+        padding: 10px;
+    }
+    .introduction{
+        font-weight: bold;
+        color: white;
+        margin-bottom: 5px;
+    }
+    .submit-button {
+        background-color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 30px;
+        cursor: pointer;
+        font-weight: bold;
+        font-family: 'baemin';
+
+    }
+    @font-face {
+    src : url("./BMHANNAAir_ttf.ttf");
+    font-family: "baemin" 
+    }
+    @keyframes fade-in {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+    @keyframes blink {
+        0% {opacity: 1;}
+        50% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+    </style>
+</head>
+<body>
+    <div class="mosaic-overlay"></div>
+    <div class="title">
+        <p id="title_1">
+            여름 YEOLLM
+        </p>
+    <div class="input">
+        <form action="/scenario/generate" method="POST">
+            <p class="introduction">
+                당신의 글을 대본으로 바꿔 드립니다 <br>
+                어떤 형식의 대본으로 바꾸고 싶은 지 골라주세요
+            </p>
+            <label class="radio">
+                <input type="radio" id ="documentary" name="written_type" value="다큐멘터리">다큐멘터리
+                <input type="radio" id ="interview" name="written_type" value="인터뷰">인터뷰
+                <input type="radio" id ="news" name="written_type" value="뉴스">뉴스
+                <input type="radio" id ="current_dramas" name="written_type" value="현대드라마">현대드라마
+                <input type="radio" id ="historical_dramas" name="written_type" value="사극">사극
+            </label>
+            <p class="introduction">
+                글을 써주세요
+            </p>
+            <textarea name="input_summary"></textarea>
+            <br>
+            <button type="submit" class="submit-button" onclick="location.href='scenario'">제출</button>
+        </form>
+    </div>
+</body>
+</html>
