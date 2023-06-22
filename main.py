@@ -1,21 +1,21 @@
 from fastapi import FastAPI, Request, Form
 # from fastapi.responses import RedirectResponse
 # from database.connection import conn
-from routes.users import user_router
-from routes.events import event_router
+# from routes.users import user_router
+# from routes.events import event_router
 
 import random
 
 import uvicorn
 
-from database.connection import Settings
+# from database.connection import Settings
 
 app = FastAPI()
-settings = Settings()
+# settings = Settings()
 
 # 라우트 등록
-app.include_router(user_router, prefix="/user") # test에서 /user/signin 으로 쓰는 이유
-app.include_router(event_router, prefix="/event")
+# app.include_router(user_router, prefix="/user") # test에서 /user/signin 으로 쓰는 이유
+# app.include_router(event_router, prefix="/event")
 
 # CORS 설정
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,17 +30,7 @@ app.add_middleware(
     allow_headers = ["*"]
 )
 
-# # huggingface - gradio
-# from gradio_client import Client
-# HF_MODEL = "KimSHine/Scenario_Koalpaca_5.8B-lora"
-
-# client = Client(HF_MODEL)
-
-# gradio - test
 from gradio_client import Client
-
-# client = Client("abidlabs/en2fr")
-
 HF_MODEL = "skang187/yeollm_test"
 
 client = Client(HF_MODEL)
@@ -50,26 +40,20 @@ def make_scenario(instruction, input_summary):
     result = client.predict(instruction, input_summary, api_name="/predict")
     return result
 
-# # DB 연결
-# @app.on_event("startup")
-# # def on_startup():
-# #     conn()
-# async def init_db():
-#     await settings.initialize_database()
-
 from fastapi.templating import Jinja2Templates
 
 # html fastapi 전송방법
-
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def home(request: Request):    
-    return templates.TemplateResponse("home.html",{"request":request})
+    return templates.TemplateResponse("yeollm_start.html",{"request":request})
 
 @app.get("/scenario")
 async def scenario_page(request: Request):
-    return templates.TemplateResponse("index.html",{"request":request})
+    return templates.TemplateResponse("yeollm_model.html",{"request":request})
+
+generate_text = []
 
 @app.post("/scenario/generate")
 async def generate_scenario(request : Request):
@@ -81,7 +65,7 @@ async def generate_scenario(request : Request):
     print(selected_value, given_summary)
     
     results_label : tuple[str] = ("YEOLLM", "TextDavinci-003", "GPT3.5")
-    results_content : tuple[str]= make_scenario(selected_value, given_summary)
+    results_content : tuple[str]= make_scenario(f'줄거리를 참고해서 {selected_value} 형식의 대본을 만들어줘', given_summary)
     
     results = [(k,v) for k,v in zip(results_label, results_content)]
     
@@ -90,14 +74,20 @@ async def generate_scenario(request : Request):
     # shuffle
     random.shuffle(results)
     
-    answer : dict = {
-        results[0][0] : results[0][1],
-        results[1][0] : results[1][1],
-        results[2][0] : results[2][1],
-    }
-    
+    answer : list = [
+        (results[0][0] , results[0][1]),
+        (results[1][0] , results[1][1]),
+        (results[2][0] , results[2][1])
+    ]
+    generate_text.append(answer)
     return answer
 
+from fastapi.responses import HTMLResponse
+
+@app.get("/result", response_class=HTMLResponse)
+@app.post("/result", response_class=HTMLResponse)
+async def scenario_result(request: Request):
+    return templates.TemplateResponse("yeollm_result.html", {"request": request, "generate_text": generate_text})
 
 
 # uvicorn.run() 으로 지정 포트에서 애플리케이션 실행

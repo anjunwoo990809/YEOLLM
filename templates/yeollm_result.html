@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>여름 : 텍스트 스타일러</title>
+    <style>
+    body {
+        background-image: url('https://github.com/anjunwoo990809/FastAPI_learning/blob/ohdongha/%EB%B0%94%EB%8B%A4%EC%82%AC%EC%A7%843.jpg?raw=true');
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-family: "IBM";
+        font-weight: bold;
+        animation: fade-in 2s ease-in-out;
+    }
+    #title_1{
+        color: white;
+        font-weight: bold;
+        font-size: 30px;
+        margin-left:50px;
+        text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        font-family: 'Hap';
+    }
+    .result_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .result{
+        margin-right: 30px;
+        margin-left: 30px;
+        width: 300px; 
+        height: 450px; 
+        background-color: white;
+        border-radius: 10px;
+        padding: 10px;
+        overflow: hidden;
+        font-size: 16px;
+    }
+    .hidden {
+        display: none;
+    }
+    @font-face {
+    src : url("https://github.com/webfontworld/hyundai/blob/main/HappinessSans-Bold.otf");
+    font-family: "Hap" 
+    }
+    @font-face {
+    src : url("https://github.com/IBM/plex/blob/v5.0.0/IBM-Plex-Sans-KR/fonts/complete/otf/IBMPlexSansKR-Bold.otf");
+    font-family: "IBM" 
+    }
+    @keyframes fade-in {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+    @keyframes blink {
+        0% {opacity: 1;}
+        50% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <p id="title_1">
+            여름 YEOLLM
+        </p>
+    </div>
+    <div class="result_container">
+        <div class="result" id="first_result">
+            <p class="result_script" id="first_result_script">
+                {{ generate_text[0][0][1] }}
+            </p>
+            <p class="result_model hidden" id="first_result_model">
+                {{ generate_text[0][0][0] }}
+            </p>
+        </div>
+        <div class="result" id="second_result">
+            <p class="result_script" id="second_result_script">
+                {{ generate_text[0][1][1] }}
+            </p>
+            <p class="result_model hidden" id="second_result_model">
+                {{ generate_text[0][1][0] }}
+            </p>
+        </div>
+        <div class="result" id="third_result">
+            <p class="result_script" id="third_result_script">
+                {{ generate_text[0][2][1] }}
+            </p>
+            <p class="result_model hidden" id="third_result_model">
+                {{ generate_text[0][2][0] }}
+            </p>
+        </div>
+    </div>
+    <script>
+        const firstResult = document.getElementById('first_result');
+        const firstResultScript = document.getElementById('first_result_script');
+        const firstResultModel = document.getElementById('first_result_model');
+    
+        const secondResult = document.getElementById('second_result');
+        const secondResultScript = document.getElementById('second_result_script');
+        const secondResultModel = document.getElementById('second_result_model');
+    
+        const thirdResult = document.getElementById('third_result');
+        const thirdResultScript = document.getElementById('third_result_script');
+        const thirdResultModel = document.getElementById('third_result_model');
+    
+        firstResult.addEventListener('click', () => {
+            firstResultScript.classList.toggle('hidden');
+            firstResultModel.classList.toggle('hidden');
+        });
+    
+        secondResult.addEventListener('click', () => {
+            secondResultScript.classList.toggle('hidden');
+            secondResultModel.classList.toggle('hidden');
+        });
+    
+        thirdResult.addEventListener('click', () => {
+            thirdResultScript.classList.toggle('hidden');
+            thirdResultModel.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
