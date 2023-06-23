@@ -1,27 +1,10 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>여름 : 텍스트 스타일러</title>
-    <style>
+{% extends "/base.html" %}
+
+{% block style %}
     html, body {
         height: 100%;
         margin: 0;
         padding: 0;
-    }
-    body {
-        background-image: url("https://github.com/anjunwoo990809/FastAPI_learning/blob/ohdongha/%EB%B0%94%EB%8B%A4%EC%82%AC%EC%A7%843.jpg?raw=true");
-        background-repeat: no-repeat;
-        background-size: cover;
-        filter: brightness(1.5) hue-rotate(90deg);
-    }
-    @font-face {
-    src : url("https://github.com/webfontworld/hyundai/blob/main/HappinessSans-Bold.otf");
-    font-family: "Hap" 
-    }
-    @font-face {
-    src : url("https://github.com/IBM/plex/blob/v5.0.0/IBM-Plex-Sans-KR/fonts/complete/otf/IBMPlexSansKR-Bold.otf");
-    font-family: "IBM" 
     }
     .title {
         text-align: center;
@@ -32,7 +15,7 @@
         color: white;
         font-weight: bold;
         text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-        font-family: 'IBM';
+        font-family: 'IBMPlexSansKR-Regular';
         animation: fade-in 1.5s ease-in-out;
     }
     #title_1{
@@ -52,22 +35,13 @@
         font-size: 40px;
         cursor: pointer;
         font-weight: bold;
-        font-family: 'Hap';
+        font-family: 'Happiness-Sans-Bold';
         opacity: 0;
         animation: blink 1s 3 3s, fade-in 1s 3 3s forwards;
     }
-    @keyframes fade-in {
-        0% {opacity: 0;}
-        100% {opacity: 1;}
-    }
-    @keyframes blink {
-        0% {opacity: 1;}
-        50% {opacity: 0;}
-        100% {opacity: 1;}
-    }
-    </style>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     <div class="title">
         <p id="title_1">
             여름 YEOLLM
@@ -78,9 +52,5 @@
         
         <p id="title_3">
             <button type="button" onclick="location.href='scenario'" class="submit-button">시작!</button>
-            <!--<input type="submit" value="시작!" class="submit-button">-->
         </p>
-        
-    </div>
-</body>
-</html>
+{% endblock %}

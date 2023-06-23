@@ -8,7 +8,7 @@
         background-image: url('https://github.com/anjunwoo990809/FastAPI_learning/blob/ohdongha/%EB%B0%94%EB%8B%A4%EC%82%AC%EC%A7%843.jpg?raw=true');
         background-repeat: no-repeat;
         background-size: cover;
-        font-family: "IBM";
+        font-family: "IBMPlexSansKR-Regular";
         font-weight: bold;
         animation: fade-in 2s ease-in-out;
     }
@@ -18,7 +18,7 @@
         font-size: 30px;
         margin-left:50px;
         text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-        font-family: 'Hap';
+        font-family: 'Happiness-Sans-Bold';
     }
     .result_container {
         display: flex;
@@ -29,8 +29,8 @@
         margin-right: 30px;
         margin-left: 30px;
         width: 300px; 
-        height: 450px; 
-        background-color: white;
+        height: 650px; 
+        background-color: rgba(255, 255, 255, 0.4);
         border-radius: 10px;
         padding: 10px;
         overflow: hidden;
@@ -41,7 +41,7 @@
     }
     @font-face {
     src : url("https://github.com/webfontworld/hyundai/blob/main/HappinessSans-Bold.otf");
-    font-family: "Hap" 
+    font-family: "Happiness-Sans-Bold" 
     }
     @font-face {
     src : url("https://github.com/IBM/plex/blob/v5.0.0/IBM-Plex-Sans-KR/fonts/complete/otf/IBMPlexSansKR-Bold.otf");
@@ -67,26 +67,47 @@
     <div class="result_container">
         <div class="result" id="first_result">
             <p class="result_script" id="first_result_script">
-                {{ generate_text[0][0][1] }}
+                {% for line in generate_text[-1][0][1] %}
+                    {{ line }}
+                    {% if generate_text[-1][0][0] == "YEOLLM" %}
+                        <br><br>
+                    {% else %}
+                        <br>
+                    {% endif %}
+                {% endfor %}
             </p>
             <p class="result_model hidden" id="first_result_model">
-                {{ generate_text[0][0][0] }}
+                {{ generate_text[-1][0][0] }}
             </p>
         </div>
         <div class="result" id="second_result">
             <p class="result_script" id="second_result_script">
-                {{ generate_text[0][1][1] }}
+                {% for line in generate_text[-1][1][1] %}
+                    {{ line }}
+                    {% if generate_text[-1][1][0] == "YEOLLM" %}
+                        <br><br>
+                    {% else %}
+                        <br>
+                    {% endif %}
+                {% endfor %}
             </p>
             <p class="result_model hidden" id="second_result_model">
-                {{ generate_text[0][1][0] }}
+                {{ generate_text[-1][1][0] }}
             </p>
         </div>
         <div class="result" id="third_result">
             <p class="result_script" id="third_result_script">
-                {{ generate_text[0][2][1] }}
+                {% for line in generate_text[-1][2][1] %}
+                    {{ line }}
+                    {% if generate_text[-1][2][0] == "YEOLLM" %}
+                        <br><br>
+                    {% else %}
+                        <br>
+                    {% endif %}
+                {% endfor %}
             </p>
             <p class="result_model hidden" id="third_result_model">
-                {{ generate_text[0][2][0] }}
+                {{ generate_text[-1][2][0] }}
             </p>
         </div>
     </div>

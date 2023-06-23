@@ -1,46 +1,36 @@
-from fastapi import FastAPI, Request, Form
-# from fastapi.responses import RedirectResponse
-# from database.connection import conn
-# from routes.users import user_router
-# from routes.events import event_router
-
+from fastapi import FastAPI, Request
 import random
-
 import uvicorn
-
-# from database.connection import Settings
-
-app = FastAPI()
-# settings = Settings()
-
-# 라우트 등록
-# app.include_router(user_router, prefix="/user") # test에서 /user/signin 으로 쓰는 이유
-# app.include_router(event_router, prefix="/event")
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
+from gradio_client import Client
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 
 # CORS 설정
-from fastapi.middleware.cors import CORSMiddleware
+# https://stackoverflow.com/questions/65191061/fastapi-cors-middleware-not-working-with-get-method/65994876#65994876
+origins = [
+    "*"
+]
 
-origins = ["*"] # 허용할 domain
+middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins = origins,
+        allow_credentials = True,
+        allow_methods = ["*"],
+        allow_headers = ["*"],
+        exposed_headers = [])
+]
+app = FastAPI(middleware=middleware)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins = origins,
-    allow_credentials = True,
-    allow_methods = ["*"],
-    allow_headers = ["*"]
-)
-
-from gradio_client import Client
-HF_MODEL = "skang187/yeollm_test"
-
+HF_MODEL = "skang187/yeollm"
 client = Client(HF_MODEL)
 
 def make_scenario(instruction, input_summary):
     
     result = client.predict(instruction, input_summary, api_name="/predict")
     return result
-
-from fastapi.templating import Jinja2Templates
 
 # html fastapi 전송방법
 templates = Jinja2Templates(directory="templates")
@@ -75,21 +65,17 @@ async def generate_scenario(request : Request):
     random.shuffle(results)
     
     answer : list = [
-        (results[0][0] , results[0][1]),
-        (results[1][0] , results[1][1]),
-        (results[2][0] , results[2][1])
+        (results[0][0] , results[0][1].lstrip().split("\n")),
+        (results[1][0] , results[1][1].lstrip().split("\n")),
+        (results[2][0] , results[2][1].lstrip().split("\n"))
     ]
     generate_text.append(answer)
     return answer
-
-from fastapi.responses import HTMLResponse
 
 @app.get("/result", response_class=HTMLResponse)
 @app.post("/result", response_class=HTMLResponse)
 async def scenario_result(request: Request):
     return templates.TemplateResponse("yeollm_result.html", {"request": request, "generate_text": generate_text})
 
-
-# uvicorn.run() 으로 지정 포트에서 애플리케이션 실행
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
