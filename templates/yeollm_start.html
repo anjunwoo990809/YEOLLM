@@ -1,47 +1,76 @@
-{% extends "/base.html" %}
-
-{% block style %}
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    .title {
-        text-align: center;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-weight: bold;
-        text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-        font-family: 'IBMPlexSansKR-Regular';
-        animation: fade-in 1.5s ease-in-out;
-    }
-    #title_1{
-        font-size: 100px;
-        margin-bottom: 20px;
-    }
-    #title_2{
-        font-size: 50px;
-        margin-top: 0px;
-        margin-bottom:0px;
-    }
-    .submit-button {
-        background-color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 10px 20px;
-        font-size: 40px;
-        cursor: pointer;
-        font-weight: bold;
-        font-family: 'Happiness-Sans-Bold';
-        opacity: 0;
-        animation: blink 1s 3 3s, fade-in 1s 3 3s forwards;
-    }
-{% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>여름 : 텍스트 스타일러</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .title {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            font-family: 'IBMPlexSansKR-Regular';
+            animation: fade-in 1.5s ease-in-out;
+        }
+        #title_1{
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+        #title_2{
+            font-size: 50px;
+            margin-top: 0px;
+            margin-bottom:0px;
+        }
+        .submit-button {
+            background-color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Happiness-Sans-Bold';
+            opacity: 0;
+            animation: blink 1s 3 3s, fade-in 1s 3 3s forwards;
+        }
+        body {
+            background-image: url("https://github.com/anjunwoo990809/FastAPI_learning/blob/ohdongha/%EB%B0%94%EB%8B%A4%EC%82%AC%EC%A7%843.jpg?raw=true");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        @font-face {
+            font-family: 'Happiness-Sans-Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'IBMPlexSansKR-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @keyframes fade-in {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+        }
+        @keyframes blink {
+            0% {opacity: 1;}
+            50% {opacity: 0;}
+            100% {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
     <div class="title">
         <p id="title_1">
             여름 YEOLLM
@@ -53,4 +82,5 @@
         <p id="title_3">
             <button type="button" onclick="location.href='scenario'" class="submit-button">시작!</button>
         </p>
-{% endblock %}
+</body>
+</html>

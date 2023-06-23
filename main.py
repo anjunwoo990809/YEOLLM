@@ -20,7 +20,7 @@ middleware = [
         allow_credentials = True,
         allow_methods = ["*"],
         allow_headers = ["*"],
-        exposed_headers = [])
+    )
 ]
 app = FastAPI(middleware=middleware)
 
