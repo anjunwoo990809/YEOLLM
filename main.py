@@ -24,12 +24,13 @@ middleware = [
 ]
 app = FastAPI(middleware=middleware)
 
-HF_MODEL = "skang187/yeollm"
+HF_MODEL = 'skang187/yeollm' #"skang187/yeollm"
+
 client = Client(HF_MODEL)
 
-def make_scenario(instruction, input_summary):
+def make_scenario(selected_value : str, input_summary):
     
-    result = client.predict(instruction, input_summary, api_name="/predict")
+    result = client.predict(selected_value, input_summary, api_name="/predict")
     return result
 
 # html fastapi 전송방법
@@ -55,7 +56,7 @@ async def generate_scenario(request : Request):
     print(selected_value, given_summary)
     
     results_label : tuple[str] = ("YEOLLM", "TextDavinci-003", "GPT3.5")
-    results_content : tuple[str]= make_scenario(f'줄거리를 참고해서 {selected_value} 형식의 대본을 만들어줘', given_summary)
+    results_content = make_scenario(selected_value, given_summary)
     
     results = [(k,v) for k,v in zip(results_label, results_content)]
     
@@ -72,10 +73,14 @@ async def generate_scenario(request : Request):
     generate_text.append(answer)
     return answer
 
+from fastapi.responses import HTMLResponse
+
 @app.get("/result", response_class=HTMLResponse)
 @app.post("/result", response_class=HTMLResponse)
 async def scenario_result(request: Request):
     return templates.TemplateResponse("yeollm_result.html", {"request": request, "generate_text": generate_text})
 
+
+# uvicorn.run() 으로 지정 포트에서 애플리케이션 실행
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
